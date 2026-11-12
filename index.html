@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JiyaVerse ✨ | A Little Sunshine Just For You</title>
+  <meta name="description" content="A special cheer-up universe made with love for Jiya Bhola (@officialjiyaverse). Filled with puppy cuddles, floral blooms, warm affirmations, and endless good vibes.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦦</text></svg>">
+</head>
+<body class="theme-rose">
+  <!-- Canvas for floating petals / sparkles -->
+  <canvas id="ambientCanvas"></canvas>
+
+  <!-- Sticky Top Navigation / Audio Player -->
+  <header class="glass-nav">
+    <div class="nav-container">
+      <div class="brand">
+        <span class="brand-badge">🦦 JIYA'S CORNER</span>
+        <span class="brand-title">JiyaVerse<span class="sparkle">✨</span></span>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Reel Mode Button -->
+        <button id="reelModeBtn" class="pill-btn highlight-btn" title="Open Instagram-style Reel Mode">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+          </svg>
+          <span>Watch Reel Mode</span>
+        </button>
+
+        <!-- Ambient Music Player -->
+        <div class="audio-widget" id="audioWidget">
+          <button id="musicToggleBtn" class="audio-btn" title="Toggle Lo-Fi Ambient Music" aria-label="Toggle Lo-Fi Music">
+            <span class="audio-icon pulse-wave">🎵</span>
+            <span class="audio-label">Lo-Fi Dream</span>
+          </button>
+          <div class="sound-wave" id="soundWave">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" class="icon-btn" title="Toggle Sunset / Starlight theme" aria-label="Toggle Theme">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Surprise Reel Intro Banner (Random Hand-off Feel) -->
+  <aside class="surprise-banner" id="surpriseBanner">
+    <div class="surprise-content">
+      <div class="surprise-pill">💌 INCOMING RANDOM DELIVERY</div>
+      <p class="surprise-text">"Hey Jiya, handing you this like a random reel because you deserve a huge smile right now."</p>
+      <div class="surprise-btns">
+        <button id="dismissBannerBtn" class="btn-sm">I'm ready! ✨</button>
+        <button id="startReelFromBannerBtn" class="btn-sm primary-sm">Play Full Reel 🎬</button>
+      </div>
+    </div>
+    <button class="banner-close" id="closeBannerBtn" aria-label="Close banner">×</button>
+  </aside>
+
+  <main class="page-wrapper">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-bg-glow"></div>
+      <div class="hero-card glass-panel">
+        
+        <div class="hero-header-badge">
+          <span class="pulse-dot"></span>
+          <span>SPECIAL CHEER-UP EDITION • OFFICIAL JIYA-VERSE</span>
+        </div>
+
+        <div class="hero-profile-row">
+          <div class="avatar-wrapper">
+            <div class="avatar-ring">
+              <img src="assets/curated/jiya_flowers_bouquet.jpg" alt="Jiya smiling with fresh roses" class="hero-avatar">
+            </div>
+            <span class="floating-otter" title="Her favourite otter!">🦦</span>
+          </div>
+
+          <div class="hero-profile-info">
+            <div class="handle-line">
+              <h1 class="creator-name">Jiya Bhola</h1>
+              <span class="verified-badge" title="Certified Pure Sunshine">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#38bdf8">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
+              </span>
+            </div>
+            
+            <div class="social-tags">
+              <a href="https://www.instagram.com/officialjiyaverse/" target="_blank" rel="noopener noreferrer" class="social-chip ig-chip">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                <span>@officialjiyaverse</span>
+              </a>
+
+              <a href="https://www.youtube.com/@jiyabholaofficial" target="_blank" rel="noopener noreferrer" class="social-chip yt-chip">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <span>@jiyabholaofficial</span>
+              </a>
+            </div>
+
+            <p class="hero-bio">
+              Vlogger • Dog Mom 🐶 • Trophy Winner 🏆 • Gym Slayer 💪 • Floral Aficionado 🌸 • Certified Overthinker Doing Her Absolute Best.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-quote-box">
+          <p class="quote-text">
+            "You are a bit of a mess sometimes, and that’s what makes you magical. Stop doubting your power, your warmth, and your light."
+          </p>
+          <span class="quote-sign">— From someone who always has your back 🛡️</span>
+        </div>
+
+        <!-- Quick Stats Pill Ribbon -->
+        <div class="stats-ribbon">
+          <div class="stat-pill">
+            <span class="stat-icon">🐕</span>
+            <div>
+              <strong>100%</strong>
+              <small>Puppy Loved</small>
+            </div>
+          </div>
+
+          <div class="stat-pill">
+            <span class="stat-icon">✨</span>
+            <div>
+              <strong>Unmatched</strong>
+              <small>Aura & Smile</small>
+            </div>
+          </div>
+
+          <div class="stat-pill">
+            <span class="stat-icon">🏆</span>
+            <div>
+              <strong>Champion</strong>
+              <small>Energy</small>
+            </div>
+          </div>
+
+          <div class="stat-pill">
+            <span class="stat-icon">☕</span>
+            <div>
+              <strong>Infinite</strong>
+              <small>Warm Hugs</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- EMERGENCY SEROTONIN DISPENSER (Interactive Comfort Machine) -->
+    <section class="section serotonin-section">
+      <div class="section-header">
+        <span class="section-tag">✨ INSTANT MOOD BOOSTER</span>
+        <h2 class="section-title">The Serotonin Dispenser 💊💌</h2>
+        <p class="section-subtitle">Having an off day or feeling overwhelmed? Tap the button below as many times as you need.</p>
+      </div>
+
+      <div class="dispenser-card glass-panel">
+        <div class="dispenser-display" id="dispenserDisplay">
+          <div class="dispenser-icon" id="dispenserIcon">🧸</div>
+          <div class="dispenser-text-wrapper">
+            <h3 class="dispenser-headline" id="dispenserHeadline">Ready when you are!</h3>
+            <p class="dispenser-message" id="dispenserMessage">Tap the button to unlock a personalized dose of love, comfort, and undeniable facts about why you're awesome.</p>
+          </div>
+        </div>
+
+        <div class="dispenser-controls">
+          <button id="dispenseBtn" class="pill-btn primary-btn dispense-action">
+            <span>Tap for Instant Serotonin 🌸</span>
+          </button>
+          <button id="virtualHugBtn" class="pill-btn secondary-btn">
+            <span>Send Virtual Hug 🫂</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIX PILLARS OF WHY YOU'RE EXTRAORDINARY -->
+    <section class="section reasons-section">
+      <div class="section-header">
+        <span class="section-tag">💎 GENTLE TRUTHS</span>
+        <h2 class="section-title">Reasons You Are Truly Unstoppable</h2>
+        <p class="section-subtitle">In case you forgot who you are today, here is the official receipt:</p>
+      </div>
+
+      <div class="reasons-grid">
+
+        <!-- Card 1 -->
+        <div class="reason-card glass-panel">
+          <div class="card-icon-badge">🐾</div>
+          <div class="card-thumb">
+            <img src="assets/curated/jiya_dog_sleep.jpg" alt="Jiya sleeping peacefully with her golden pup" loading="lazy">
+          </div>
+          <h3 class="card-title">The Softest, Purest Heart</h3>
+          <p class="card-desc">
+            Look at how safe that golden retriever feels with you. Animals know who the genuinely good souls are in this world. Your warmth is therapeutic.
+          </p>
+          <span class="card-subtag">Golden Retriever Approved 🐶</span>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="reason-card glass-panel">
+          <div class="card-icon-badge">🏆</div>
+          <div class="card-thumb">
+            <img src="assets/curated/jiya_trophy_purple.jpg" alt="Jiya sitting proudly with her trophy" loading="lazy">
+          </div>
+          <h3 class="card-title">Winner Mindset & Royalty</h3>
+          <p class="card-desc">
+            Trophy in hand, traditional paranda on point, and effortless grace. When you decide to show up and conquer, nobody can outshine you.
+          </p>
+          <span class="card-subtag">Punjabi Queen Energy ✨</span>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="reason-card glass-panel">
+          <div class="card-icon-badge">🌸</div>
+          <div class="card-thumb">
+            <img src="assets/curated/jiya_cafe_corridor.jpg" alt="Jiya walking under flower corridor" loading="lazy">
+          </div>
+          <h3 class="card-title">You Make Every Space Bloom</h3>
+          <p class="card-desc">
+            Whether you're holding a single red rose in a car or walking through a garden cafe archway, your energy lights up everything around you.
+          </p>
+          <span class="card-subtag">Floral Radiance 🌹</span>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="reason-card glass-panel">
+          <div class="card-icon-badge">💪</div>
+          <div class="card-thumb">
+            <img src="assets/curated/jiya_gym_nails.jpg" alt="Jiya's stylish stiletto nails gripping gym dumbbell" loading="lazy">
+          </div>
+          <h3 class="card-title">Strong, Resilient & Stylish</h3>
+          <p class="card-desc">
+            Lifting weights with star-studded nails. You balance hustle and softness, fierce independence and cozy comfort like nobody else.
+          </p>
+          <span class="card-subtag">Iron & Glamour 💅</span>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="reason-card glass-panel">
+          <div class="card-icon-badge">🌈</div>
+          <div class="card-thumb">
+            <img src="assets/curated/art_bit_of_a_mess.jpg" alt="Bit of a mess but doing my best coloring page" loading="lazy">
+          </div>
+          <h3 class="card-title">Doing Your Best Is Enough</h3>
+          <p class="card-desc">
+            "Bit of a mess, but doing my best." You don't have to be perfect 24/7. Even on your quietest, messiest days, you are doing remarkably well.
+          </p>
+          <span class="card-subtag">Permission To Rest ☕</span>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="reason-card glass-panel">
+          <div class="card-icon-badge">🛡️</div>
+          <div class="card-thumb">
+            <img src="assets/curated/art_knight_hug.jpg" alt="Knight in shining armor hugging princess" loading="lazy">
+          </div>
+          <h3 class="card-title">You Are Never Alone</h3>
+          <p class="card-desc">
+            Even warriors need a sanctuary. Whatever stresses, doubts, or battles life throws at you, you always have someone steadfast in your corner.
+          </p>
+          <span class="card-subtag">Always Protected 🤍</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- INTERACTIVE AFFIRMATION RAINBOW (From her actual coloring page!) -->
+    <section class="section rainbow-section">
+      <div class="section-header">
+        <span class="section-tag">🌈 YOUR TRUTHS</span>
+        <h2 class="section-title">The Rainbow of Truths</h2>
+        <p class="section-subtitle">Click each arch of your rainbow to illuminate your daily affirmation:</p>
+      </div>
+
+      <div class="rainbow-container glass-panel">
+        <div class="rainbow-arc-group" id="rainbowArcGroup">
+          <button class="arc-btn arc-red" data-index="0" data-word="I AM STRONG" data-desc="You handle things that would make others fold. Your quiet resilience is nothing short of heroic.">
+            <span>I AM STRONG</span>
+          </button>
+          <button class="arc-btn arc-orange" data-index="1" data-word="I AM CAPABLE" data-desc="Whatever goal or hurdle is in front of you, you have the talent and drive to conquer it.">
+            <span>I AM CAPABLE</span>
+          </button>
+          <button class="arc-btn arc-yellow" data-index="2" data-word="I AM UNIQUE" data-desc="No one has your exact spark, your laugh, your wit, or the warmth you bring into rooms.">
+            <span>I AM UNIQUE</span>
+          </button>
+          <button class="arc-btn arc-green" data-index="3" data-word="I AM KIND" data-desc="Your gentle heart shows in the way you hold pups, treat friends, and care deeply for the world.">
+            <span>I AM KIND</span>
+          </button>
+          <button class="arc-btn arc-teal" data-index="4" data-word="I AM APPRECIATED" data-desc="Even when you don't hear it every second, your efforts and existence matter intensely.">
+            <span>I AM APPRECIATED</span>
+          </button>
+          <button class="arc-btn arc-blue" data-index="5" data-word="I AM HEARD" data-desc="Your feelings, your thoughts, and your quietest whispers are all valid and listened to.">
+            <span>I AM HEARD</span>
+          </button>
+          <button class="arc-btn arc-indigo" data-index="6" data-word="I AM IMPORTANT" data-desc="You are not an afterthought in this universe. You are the main character of your story.">
+            <span>I AM IMPORTANT</span>
+          </button>
+          <button class="arc-btn arc-violet" data-index="7" data-word="I AM LOVED" data-desc="Endlessly, without conditions, on both your sunniest days and your stormiest nights.">
+            <span>I AM LOVED</span>
+          </button>
+        </div>
+
+        <div class="rainbow-display-box" id="rainbowDisplayBox">
+          <div class="active-affirmation-badge" id="activeAffirmationBadge">Tap Any Color Arc Above 🌈</div>
+          <p class="active-affirmation-text" id="activeAffirmationText">Every single line from your favorite coloring page is true. Let them sink in.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO POLAROID SCRAPBOOK -->
+    <section class="section scrapbook-section" id="scrapbookSection">
+      <div class="section-header">
+        <span class="section-tag">📸 THE MEMORY VAULT</span>
+        <h2 class="section-title">The Jiya Scrapbook</h2>
+        <p class="section-subtitle">Moments of pure joy, victories, and cozy days. Tap any polaroid to view full-size & send love.</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-bar">
+        <button class="filter-chip active" data-filter="all">All (21)</button>
+        <button class="filter-chip" data-filter="dogs">🐾 Puppy Love</button>
+        <button class="filter-chip" data-filter="flowers">🌸 Floral Magic</button>
+        <button class="filter-chip" data-filter="chic">✨ Chic & Cozy</button>
+        <button class="filter-chip" data-filter="achievements">🏆 Victories</button>
+        <button class="filter-chip" data-filter="memories">🤍 Special</button>
+      </div>
+
+      <!-- Polaroid Grid -->
+      <div class="polaroid-grid" id="polaroidGrid">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </section>
+
+    <!-- INTERACTIVE COLORING STUDIO (Personalized based on her 12 coloring pages!) -->
+    <section class="section coloring-section" id="coloringStudio">
+      <div class="section-header">
+        <span class="section-tag">🎨 RELAX & UNWIND</span>
+        <h2 class="section-title">Jiya's Cozy Coloring Corner</h2>
+        <p class="section-subtitle">You saved all these adorable coloring sheets — now you can actually color them right here! Pick a page, select a color, and tap or brush away.</p>
+      </div>
+
+      <div class="coloring-studio-card glass-panel">
+        
+        <!-- Sheet Selector Carousel -->
+        <div class="sheet-carousel-wrapper">
+          <div class="carousel-label">Choose your page:</div>
+          <div class="sheet-carousel" id="sheetCarousel">
+            <!-- Sheet thumbs populated via JS -->
+          </div>
+        </div>
+
+        <!-- Coloring Canvas Workspace -->
+        <div class="canvas-workspace">
+          <div class="canvas-container" id="canvasContainer">
+            <!-- Background Color layer -->
+            <canvas id="paintCanvas" width="720" height="960"></canvas>
+            <!-- Foreground Line Art with multiply blend -->
+            <canvas id="lineArtCanvas" width="720" height="960"></canvas>
+          </div>
+
+          <!-- Studio Toolbar -->
+          <div class="studio-toolbar">
+            
+            <!-- Tool selection -->
+            <div class="tool-group">
+              <button class="tool-btn active" id="toolBucket" title="Magic Tap Fill">
+                <span>🪄 Tap Fill</span>
+              </button>
+              <button class="tool-btn" id="toolBrush" title="Freehand Brush">
+                <span>🖌️ Brush</span>
+              </button>
+              <button class="tool-btn" id="toolEraser" title="Eraser">
+                <span>🧽 Eraser</span>
+              </button>
+            </div>
+
+            <!-- Brush Size (shown for brush/eraser) -->
+            <div class="brush-size-group" id="brushSizeGroup">
+              <label for="brushSizeSlider">Size:</label>
+              <input type="range" id="brushSizeSlider" min="5" max="50" value="18">
+            </div>
+
+            <!-- Color Palette Swatches -->
+            <div class="palette-swatches" id="paletteSwatches">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Actions -->
+            <div class="canvas-actions">
+              <button class="action-btn" id="undoBtn" title="Undo last step">
+                ↩️ Undo
+              </button>
+              <button class="action-btn" id="clearCanvasBtn" title="Reset this page">
+                🔄 Reset
+              </button>
+              <button class="action-btn highlight-btn" id="downloadCanvasBtn" title="Save your art">
+                💾 Save Art
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="coloring-hint">
+          💡 <em>Pro-tip: Magic Tap Fill lets you tap inside any enclosed section to fill it with color! The black lines stay crisp and bold.</em>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HEARTFELT LETTER ENVELOPE -->
+    <section class="section letter-section">
+      <div class="section-header">
+        <span class="section-tag">💌 SPECIAL DELIVERY</span>
+        <h2 class="section-title">A Letter For When You Need It</h2>
+        <p class="section-subtitle">Click the wax seal to unfold what's inside.</p>
+      </div>
+
+      <div class="letter-container">
+        <div class="envelope-wrapper" id="envelopeWrapper">
+          <div class="envelope" id="envelope">
+            <div class="envelope-back"></div>
+            <div class="letter-paper" id="letterPaper">
+              <div class="paper-header">
+                <span class="paper-date">For Jiya 🦦</span>
+                <span class="paper-tag">To keep close</span>
+              </div>
+              <div class="paper-body">
+                <p>Hey Jiya,</p>
+                <p>
+                  If you’re having a long day, an overwhelming week, or just an afternoon where your thoughts feel a bit too loud — take a deep breath and let this be your quiet pause.
+                </p>
+                <p>
+                  I look at everything you do: the way you make videos, the way you show up at the gym, the way you win competitions, and the way you look holding flowers or sleeping with that sweet golden retriever. You give so much warmth and energy to everyone and everything around you.
+                </p>
+                <p>
+                  You don’t have to carry every worry on your shoulders. You’re allowed to have days where you're "a bit of a mess" — because even at your messiest, your heart is pure gold.
+                </p>
+                <p>
+                  Remember that you are important, heard, appreciated, and cherished. And whenever the world feels a little too heavy, remember you have a knight in your corner who will always cheer for you the loudest.
+                </p>
+                <p class="paper-closing">
+                  Keep shining, Jiya.<br>
+                  Always here for you 🛡️✨
+                </p>
+              </div>
+            </div>
+            <div class="envelope-front"></div>
+            <div class="envelope-top" id="envelopeTop"></div>
+            <div class="wax-seal" id="waxSeal" title="Click to open letter">
+              <span>❤️</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REEL / STORY MODAL (Full-screen Mobile & Desktop Experience) -->
+    <div class="reel-modal" id="reelModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="reel-overlay" id="closeReelOverlay"></div>
+      <div class="reel-container">
+        
+        <!-- Story Progress Bars -->
+        <div class="story-progress-bar" id="storyProgressContainer">
+          <!-- Bars generated via JS -->
+        </div>
+
+        <!-- Reel Header -->
+        <div class="reel-header">
+          <div class="reel-creator">
+            <img src="assets/curated/jiya_flowers_bouquet.jpg" alt="Jiya" class="reel-avatar">
+            <div>
+              <div class="reel-creator-name">jiyaverse_cheer</div>
+              <div class="reel-sub">Just for you • Original audio</div>
+            </div>
+          </div>
+          <div class="reel-top-actions">
+            <button id="reelAudioToggle" class="reel-icon-btn" title="Toggle audio">🔊</button>
+            <button id="closeReelBtn" class="reel-icon-btn" title="Close Reel Mode">✕</button>
+          </div>
+        </div>
+
+        <!-- Active Story Slide Content -->
+        <div class="reel-slide" id="reelSlide">
+          <!-- Slide content injected via JS -->
+        </div>
+
+        <!-- Tap Navigation Zones -->
+        <div class="tap-zone tap-left" id="tapLeft" title="Previous story"></div>
+        <div class="tap-zone tap-right" id="tapRight" title="Next story"></div>
+
+        <!-- Reel Footer Actions -->
+        <div class="reel-footer">
+          <button id="reelHeartBtn" class="reel-pill-action">
+            <span class="heart-icon">❤️</span>
+            <span id="reelHeartCount">1.2k</span>
+          </button>
+          <button id="reelShareBtn" class="reel-pill-action">
+            <span>✨ Share Smile</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PHOTO LIGHTBOX -->
+    <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="lightbox-overlay" id="closeLightboxOverlay"></div>
+      <div class="lightbox-content">
+        <button class="lightbox-close" id="closeLightboxBtn">✕</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrevBtn">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNextBtn">›</button>
+
+        <div class="lightbox-image-wrap">
+          <img src="" alt="" id="lightboxImg">
+        </div>
+
+        <div class="lightbox-caption-box">
+          <span class="lightbox-tag" id="lightboxTag">Tag</span>
+          <h3 class="lightbox-title" id="lightboxTitle">Title</h3>
+          <p class="lightbox-caption" id="lightboxCaption">Caption</p>
+          <div class="lightbox-action-row">
+            <button class="pill-btn highlight-btn" id="lightboxLoveBtn">
+              <span>❤️ Send Love</span>
+              <span id="lightboxLoveCount" class="love-counter">42</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOATING PET / MASCOT COMPANION -->
+    <div class="floating-mascot" id="mascotOtter" title="Tap me for a giggle!">
+      <div class="mascot-bubble" id="mascotBubble">
+        Hey Jiya! 🦦 Remember you're doing amazing!
+      </div>
+      <div class="mascot-avatar">🦦</div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-tagline">
+        Crafted with endless care for <strong>Jiya Bhola</strong> (@officialjiyaverse).
+      </div>
+      <div class="footer-links">
+        <a href="https://www.youtube.com/@jiyabholaofficial" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
+        <span>•</span>
+        <a href="https://www.instagram.com/officialjiyaverse/" target="_blank" rel="noopener noreferrer">Instagram Universe</a>
+        <span>•</span>
+        <a href="#scrapbookSection">Memory Scrapbook</a>
+        <span>•</span>
+        <a href="#coloringStudio">Coloring Corner</a>
+      </div>
+      <p class="footer-small">Keep shining, keep smiling, and don't forget to cuddle your pup today. ✨</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
